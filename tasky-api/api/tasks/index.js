@@ -3,6 +3,7 @@ import { tasksData } from "./tasksData";
 import { v4 as uuidv4 } from "uuid";
 
 const router = express.Router();
+const date = new Date().toISOString();
 
 router.get("/", (req, res) => {
   res.json(tasksData);
@@ -28,6 +29,8 @@ router.post("/", (req, res) => {
     deadline,
     priority,
     done,
+    createdAt: date,
+    modifiedAt: date,
   };
   tasksData.tasks.push(newTask);
   res.status(201).json(newTask);
@@ -41,7 +44,12 @@ router.put("/:id", (req, res) => {
   if (taskIndex === -1) {
     return res.status(404).json({ status: 404, message: "Task not found" });
   }
-  const updatedTask = { ...tasksData.tasks[taskIndex], ...req.body, id: id };
+  const updatedTask = {
+    ...tasksData.tasks[taskIndex],
+    ...req.body,
+    id: id,
+    modifiedAt: date,
+  };
   tasksData.tasks[taskIndex] = updatedTask;
   res.json(updatedTask);
 });
