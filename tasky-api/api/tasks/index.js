@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Get all tasks
 router.get("/", async (req, res) => {
-  const tasks = await Task.find();
+  const tasks = await Task.find().populate("userId", "username");
   res.status(200).json(tasks);
 });
 
