@@ -23,6 +23,7 @@ const SiteHeader = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { isAuthenticated, signout } = useContext(AuthContext);
 
+  // Menu options
   const menuOptions = [
     { label: "Home", path: "/" },
     { label: "Favorites", path: "/movies/favorites" },
@@ -32,10 +33,12 @@ const SiteHeader = () => {
     { label: "Top Rated", path: "/movies/topRated" },
   ];
 
+  // Handle menu item selection
   const handleMenuSelect = (pageURL) => {
     navigate(pageURL, { replace: true });
   };
 
+  // Handle menu button click
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -84,6 +87,16 @@ const SiteHeader = () => {
                     {opt.label}
                   </MenuItem>
                 ))}
+                {!isAuthenticated && (
+                  <>
+                    <MenuItem onClick={() => navigate("/signup")}>
+                      Sign Up
+                    </MenuItem>
+                    <MenuItem onClick={() => navigate("/login")}>
+                      Login
+                    </MenuItem>
+                  </>
+                )}
                 {isAuthenticated && (
                   <>
                     <MenuItem onClick={() => navigate("/profile")}>
@@ -105,7 +118,16 @@ const SiteHeader = () => {
                   {opt.label}
                 </Button>
               ))}
-              {isAuthenticated ? (
+              {!isAuthenticated ? (
+                <>
+                  <Button color="inherit" onClick={() => navigate("/signup")}>
+                    Sign Up
+                  </Button>
+                  <Button color="inherit" onClick={() => navigate("/login")}>
+                    Login
+                  </Button>
+                </>
+              ) : (
                 <>
                   <Typography variant="h6" sx={{ flexGrow: 1 }}>
                     You are signed in!
@@ -114,10 +136,6 @@ const SiteHeader = () => {
                     Sign out
                   </Button>
                 </>
-              ) : (
-                <Button color="inherit" onClick={() => navigate("/login")}>
-                  Login
-                </Button>
               )}
             </>
           )}

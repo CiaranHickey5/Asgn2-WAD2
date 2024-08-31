@@ -1,26 +1,26 @@
-// export const getMovies = () => {
-//   return fetch(
-//     `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
-//   )
-//     .then((response) => {
-//       if (!response.ok) {
-//         throw new Error(response.json().message);
-//       }
-//       return response.json();
-//     })
-//     .catch((error) => {
-//       throw error;
-//     });
-// };
-
-export const getMovies = async () => {
-  const response = await fetch("http://localhost:8080/api/movies", {
-    headers: {
-      Authorization: window.localStorage.getItem("token"),
-    },
-  });
-  return response.json();
+export const getMovies = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
+
+// export const getMovies = async () => {
+//   const response = await fetch("http://localhost:8080/api/movies", {
+//     headers: {
+//       Authorization: window.localStorage.getItem("token"),
+//     },
+//   });
+//   return response.json();
+// };
 
 export const getMovie = (args) => {
   // console.log(args)
@@ -40,12 +40,12 @@ export const getMovie = (args) => {
     });
 };
 
-// export const getMovie = async (id) => {
-//   const response = await fetch(`http://localhost:8080/api/movie/${id}`, {
-//     headers: {
-//       Authorization: window.localStorage.getItem("token"),
-//     },
-//   });
+// // export const getMovie = async (id) => {
+// //   const response = await fetch(`http://localhost:8080/api/movies/${id}`, {
+// //     headers: {
+// //       Authorization: window.localStorage.getItem("token"),
+// //     },
+// //   });
 //   return response.json();
 // };
 
@@ -67,7 +67,7 @@ export const getGenres = async () => {
 };
 
 // export const getGenres = async () => {
-//   const response = await fetch("http://localhost:8080/api/genres", {
+//   const response = await fetch("http://localhost:8080/api/movies/genres", {
 //     headers: {
 //       Authorization: window.localStorage.getItem("token"),
 //     },

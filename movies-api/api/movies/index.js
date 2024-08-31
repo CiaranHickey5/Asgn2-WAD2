@@ -1,18 +1,23 @@
-import movieModel from "./movieModel";
-import asyncHandler from "express-async-handler";
 import express from "express";
-import { getUpcomingMovies } from "../tmdb-api";
-import { getMovieGenres } from "../tmdb-api";
+import asyncHandler from "express-async-handler";
+import movieModel from "./movieModel";
+import {
+  getUpcomingMovies,
+  getMovieGenres,
+  getMovieImages,
+  getMovieVideos,
+  getSimilarMovies,
+  getMovieReviews,
+} from "../tmdb-api";
 
 const router = express.Router();
 
+// Get all movies
 router.get(
   "/",
   asyncHandler(async (req, res) => {
-    let { page = 1, limit = 10 } = req.query; // destructure page and limit and set default values
-    [page, limit] = [+page, +limit]; //trick to convert to numeric (req.query will contain string values)
-
-    // Parallel execution of counting movies and getting movies using movieModel
+    let { page = 1, limit = 10 } = req.query;
+    [page, limit] = [+page, +limit];
     const [total_results, results] = await Promise.all([
       movieModel.estimatedDocumentCount(),
       movieModel
@@ -20,22 +25,14 @@ router.get(
         .limit(limit)
         .skip((page - 1) * limit),
     ]);
-    const total_pages = Math.ceil(total_results / limit); //Calculate total number of pages (= total No Docs/Number of docs per page)
-
-    //construct return Object and insert into response object
-    const returnObject = {
-      page,
-      total_pages,
-      total_results,
-      results,
-    };
-    res.status(200).json(returnObject);
+    const total_pages = Math.ceil(total_results / limit);
+    res.status(200).json({ page, total_pages, total_results, results });
   })
 );
 
-// Get movie details
+// Get movie by ID
 router.get(
-  "/:id",
+  "/movie/:id",
   asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
     const movie = await movieModel.findByMovieDBId(id);
@@ -52,7 +49,7 @@ router.get(
 
 // Get upcoming movies
 router.get(
-  "/tmdb/upcoming",
+  "/api/upcoming",
   asyncHandler(async (req, res) => {
     const upcomingMovies = await getUpcomingMovies();
     res.status(200).json(upcomingMovies);
@@ -61,10 +58,77 @@ router.get(
 
 // Get movie genres
 router.get(
-  "/tmdb/genres",
+  "/genres",
   asyncHandler(async (req, res) => {
     const movieGenres = await getMovieGenres();
     res.status(200).json(movieGenres);
+  })
+);
+
+// Get movie images
+router.get(
+  "/api/movie/:id/images",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const images = await getMovieImages(id);
+    res.status(200).json(images);
+  })
+);
+
+// Get movie videos
+router.get(
+  "/api/movie/:id/videos",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const videos = await getMovieVideos(id);
+    res.status(200).json(videos);
+  })
+);
+
+// Get similar movies
+router.get(
+  "/api/movie/:id/similar",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const similarMovies = await getSimilarMovies(id);
+    res.status(200).json(similarMovies);
+  })
+);
+
+// Get movie reviews
+router.get(
+  "/api/movie/:id/reviews",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const reviews = await getMovieReviews(id);
+    res.status(200).json(reviews);
+  })
+);
+
+// Get now playing movies
+router.get(
+  "/api/now_playing",
+  asyncHandler(async (req, res) => {
+    const nowPlayingMovies = await getNowPlayingMovies();
+    res.status(200).json(nowPlayingMovies);
+  })
+);
+
+// Get popular movies
+router.get(
+  "/api/popular",
+  asyncHandler(async (req, res) => {
+    const popularMovies = await getPopularMovies();
+    res.status(200).json(popularMovies);
+  })
+);
+
+// Get top rated movies
+router.get(
+  "/api/top_rated",
+  asyncHandler(async (req, res) => {
+    const topRatedMovies = await getTopRatedMovies();
+    res.status(200).json(topRatedMovies);
   })
 );
 
