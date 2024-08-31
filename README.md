@@ -2,48 +2,59 @@
 
 Name: Ciaran Hickey
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Setup requirements](#setup-requirements)
+- [API Configuration](#api-configuration)
+- [API Design](#api-design)
+- [Security and Authentication](#security-and-uthentication)
+- [Integrating with React App](#integrating-with-react-app)
+
+## Overview
+
 ## Features.
 
-A bullet-point list of the ADDITIONAL features you have implemented in the API **THAT WERE NOT IN THE LABS** (or modifications to existing features)
- 
- + Feature 1 
- + Feature 2 
- + Feature 3 
- + etc
+- Login and Sign Up pages added
+- Protected routes included to allow users to view movies only when logged in
+- Login and sign up added to site header
+- API endpoints called from the frontend app
 
 ## Setup requirements.
 
-[ Outline any non-standard setup steps necessary to run your app locally after cloning the repo.]
+To setup the app after cloning my react app, I started the react app in the terminal npm start. This run the app on localhost:3000. I then configured my api and finally ran npm start for the api server which ran on 8080.
 
 ## API Configuration
 
-Describe any configuration that needs to take place before running the API. For example, creating an `.env` file and what variables to put in it. Give an example of how this might be done.
+These are examples of what was placed in my .env file to configure my API before running it.
 
-REMEMBER: DON'T PUT YOUR OWN USERNAMES/PASSWORDS/AUTH KEYS IN THE README OR ON GITHUB, just placeholders as indicated below:
-
-______________________
 NODEENV=development
 PORT=8080
 HOST=
 mongoDB=YourMongoURL
 seedDb=true
 secret=YourJWTSecret
-______________________
 
 ## API Design
-Give an overview of your web API design, perhaps similar to the following: 
 
-- /api/movies | GET | Gets a list of movies 
-- /api/movies/{movieid} | GET | Gets a single movie 
-- /api/movies/{movieid}/reviews | GET | Get all reviews for movie 
-- /api/movies/{movieid}/reviews | POST | Create a new review for Movie 
+This is an overview of the web API design:
 
-If you have your API design on an online platform or graphic, please link to it (e.g. [Swaggerhub](https://app.swaggerhub.com/)).
+- /api/movie | GET | Gets a list of movies
+- /api/movie/{movieid} | GET | Gets a single movie
+- /api/movie/{movieid}/reviews | GET | Get all reviews for movie
+- /api/movie/upcoming | GET | Get list of upcoming movies
+- /api/movie/genres | GET | Get movie genres
+- /api/movie/:id/images | GET | Get movie genres
+- /api/movie/:id/videos | GET | Get movie videos
+- /api/movie/:id/similar | GET | Get list of similar movies
+- /api/movie/now_playing | GET | Get list of now playing movies
+- /api/movie/popular | GET | Get list of popular movies
 
 ## Security and Authentication
 
-Give details of authentication/security implemented on the API (e.g. passport/sessions). Indicate which routes are protected.
+Passport and JWT(JSON Web Tokens) were used for security and authentication.
 
 ## Integrating with React App
 
-Describe how you integrated your React app with the API. List the views that use your Web API instead of the TMDB API. Describe any other updates to the React app from Assignment One.
+To integrate with my react app I changed the endpoints to use my movie api to fetch from the client side instead of calling from the TMDB database.

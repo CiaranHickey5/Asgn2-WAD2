@@ -14,7 +14,7 @@ const router = express.Router();
 
 // Get all movies
 router.get(
-  "/",
+  "/api/movie",
   asyncHandler(async (req, res) => {
     let { page = 1, limit = 10 } = req.query;
     [page, limit] = [+page, +limit];
@@ -32,7 +32,7 @@ router.get(
 
 // Get movie by ID
 router.get(
-  "/movie/:id",
+  "/api/movie/:id",
   asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
     const movie = await movieModel.findByMovieDBId(id);
@@ -49,7 +49,7 @@ router.get(
 
 // Get upcoming movies
 router.get(
-  "/api/upcoming",
+  "/api/movie/upcoming",
   asyncHandler(async (req, res) => {
     const upcomingMovies = await getUpcomingMovies();
     res.status(200).json(upcomingMovies);
@@ -58,7 +58,7 @@ router.get(
 
 // Get movie genres
 router.get(
-  "/genres",
+  "api/movie/genres",
   asyncHandler(async (req, res) => {
     const movieGenres = await getMovieGenres();
     res.status(200).json(movieGenres);
